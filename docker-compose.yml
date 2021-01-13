@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    command: npm run dev
+    ports:
+      - "3000:3333"
+    volumes:
+      - .:/usr/app
+    env_file: ./.env
+  mysql:
+    env_file: ./.env
+    image: mysql:5.7
+    container_name: mysql
+    volumes:
+      - ./data/db:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DATABASE_DB}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
